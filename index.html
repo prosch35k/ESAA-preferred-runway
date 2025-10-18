@@ -95,17 +95,18 @@
                     max-width: 100%;
                 }
             }
+
             #map-container {
               position: relative;
-              width: 500px;   /* adjust to your map width */
+              width: 130px;   /* adjust to your map width */
               max-width: 100%;
             }
-
+            
             #map-container img {
               width: 100%;
               display: block;
             }
-
+            
             .highlight {
               position: absolute;
               top: 0;
@@ -115,12 +116,29 @@
               pointer-events: none;
             }
 
+            .highlight {
+              z-index: 0;
+            }
+
+            #baseMap {
+              z-index: 1;
+              position: relative;
+            }
+            
         </style>
     </head>
 
     <body>
         <h1>ESAA (VATSCA)</h1>
         <h2>PREFERRED RUNWAY IN USE BASED ON WIND</h2>
+        <div id="map-container">
+          <img src="highlight-esos.png" id="highlightESOS" class="highlight" alt="">
+          <img src="highlight-esmm.png" id="highlightESMM" class="highlight" alt="">
+          <img src="highlight-gg.png" id="highlightGG" class="highlight" alt="">
+          <img src="highlight-os.png" id="highlightOS" class="highlight" alt="">
+          <img src="base-map.png" id="baseMap" alt="Sweden FIR map">
+        </div>       
+        <br> 
         <label><input type="checkbox" id="ESOScheckbox">ESOS</label>
         <label><input type="checkbox" id="ESMMcheckbox">ESMM</label>
         <br>
@@ -131,13 +149,6 @@
           ESSA, ESCF, ESKN, ESIB, ESCM not included.
         </p>
         <br>
-        <div id="map-container">
-          <img src="base-map.png" id="baseMap" alt="Sweden FIR map">
-          <img src="highlight-esos.png" id="highlightESOS" class="highlight" alt="">
-          <img src="highlight-esmm.png" id="highlightESMM" class="highlight" alt="">
-          <img src="highlight-gg.png" id="highlightGG" class="highlight" alt="">
-          <img src="highlight-os.png" id="highlightOS" class="highlight" alt="">
-        </div>
         <pre id="output">Loading...</pre>
 
         <script>
@@ -314,13 +325,28 @@
             document.getElementById("OScheckbox").checked ? 1 : 0;
         }
 
-        document.getElementById("ESOScheckbox").addEventListener("change", update);
-        document.getElementById("ESMMcheckbox").addEventListener("change", update);
-        document.getElementById("GGcheckbox").addEventListener("change", update);
-        document.getElementById("OScheckbox").addEventListener("change", update);
+        document.getElementById("ESOScheckbox").addEventListener("change", () => {
+          update();
+          updateHighlights();
+        });
+        document.getElementById("ESMMcheckbox").addEventListener("change", () => {
+          update();
+          updateHighlights();
+        });
+        document.getElementById("GGcheckbox").addEventListener("change", () => {
+          update();
+          updateHighlights();
+        });
+        document.getElementById("OScheckbox").addEventListener("change", () => {
+          update();
+          updateHighlights();
+        });
 
+
+        updateHighlights();
         update();
         setInterval(update, 5 * 60 * 1000);
+
         </script>
     </body>
 </html>
