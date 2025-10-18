@@ -1,0 +1,285 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Preferred Runway Sweden</title>
+        <style>
+            /* Reset some defaults */
+            body {
+                margin: 0;
+                padding: 2rem;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                background: #f9fafb;
+                color: #333;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                min-height: 100vh;
+            }
+        
+            h1 {
+                font-weight: 700;
+                color: #1a4860;
+                margin-bottom: 1rem;
+                text-align: center;
+            }
+
+            h2 {
+                font-weight: 700;
+                color: #1a4860;
+                margin-bottom: 1rem;
+                text-align: center;
+            }
+        
+            label {
+                font-weight: 600;
+                margin-right: 1.5rem;
+                cursor: pointer;
+                user-select: none;
+                display: inline-flex;
+                align-items: center;
+                font-size: 1.1rem;
+                color: #1a4860;
+                transition: color 0.3s ease;
+            }
+        
+            label:hover {
+                color: #102c3b;
+            }
+        
+            input[type="checkbox"] {
+                margin-right: 0.5rem;
+                width: 18px;
+                height: 18px;
+                cursor: pointer;
+                accent-color: #2980b9;
+                transition: accent-color 0.3s ease;
+            }
+        
+            p {
+                font-size: 0.9rem;
+                color: #666;
+                margin: 1rem 0 2rem;
+                text-align: center;
+                max-width: 400px;
+            }
+        
+            pre#output {
+                background: #fff;
+                border-radius: 8px;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+                padding: 1rem 1.5rem;
+                font-size: 1rem;
+                line-height: 1.5;
+                white-space: pre-wrap;
+                text-align: center;
+                max-width: 300px;
+                width: 100%;
+                color: #2c3e50;
+            }
+        
+            /* Responsive */
+            @media (max-width: 480px) {
+                body {
+                    padding: 1rem;
+                }
+                label {
+                    font-size: 1rem;
+                    margin-right: 1rem;
+                }
+                pre#output {
+                    font-size: 0.9rem;
+                    max-width: 100%;
+                }
+                p {
+                    max-width: 100%;
+                }
+            }
+        </style>
+    </head>
+
+    <body>
+        <h1>ESAA (VATSCA)</h1>
+        <h2>PREFERRED RUNWAY IN USE BASED ON WIND</h2>
+        <label><input type="checkbox" id="ESOScheckbox">ESOS</label>
+        <label><input type="checkbox" id="ESMMcheckbox">ESMM</label>
+        <br>
+        <label><input type="checkbox" id="GGcheckbox">GG TMA</label>
+        <label><input type="checkbox" id="OScheckbox">OS TMA</label>
+        <br>
+        <p>
+          ESSA, ESCF, ESKN, ESIB, ESCM not included.
+        </p>
+        <br>
+        <pre id="output">Loading...</pre>
+
+        <script>
+        const airports = [
+
+            { icao: "ESNX", lat: 65.5952, lon: 19.2661, runways: [ {id:"12", heading:128}, {id:"30", heading:308} ] },
+
+            { icao: "ESSD", lat: 60.4292, lon: 15.5066, runways: [ {id:"14", heading:132}, {id:"32", heading:312} ] },
+
+            { icao: "ESSU", lat: 59.3506, lon: 16.7084, runways: [ {id:"18", heading:178}, {id:"36", heading:358} ] },
+
+            { icao: "ESNG", lat: 67.1331, lon: 20.8109, runways: [ {id:"12", heading:118}, {id:"30", heading:298} ] },
+
+            { icao: "ESGG", lat: 57.6496, lon: 12.2677, runways: [ {id:"03", heading:26}, {id:"21", heading:206} ] },
+
+            { icao: "ESGT", lat: 58.3169, lon: 12.3458, runways: [ {id:"15", heading:146}, {id:"33", heading:326} ] },
+
+            { icao: "ESGP", lat: 57.7771, lon: 11.8703, runways: [ {id:"01", heading:5}, {id:"19", heading:185} ] },
+
+            { icao: "ESOH", lat: 60.0201, lon: 13.5795, runways: [ {id:"18", heading:177}, {id:"36", heading:357} ] },
+
+            { icao: "ESMV", lat: 57.2881, lon: 14.1295, runways: [ {id:"04", heading:43}, {id:"22", heading:223} ] },
+
+            { icao: "ESMT", lat: 56.6829, lon: 12.8184, runways: [ {id:"01", heading:6}, {id:"19", heading:186} ] },
+
+            { icao: "ESUT", lat: 65.8093, lon: 15.0785, runways: [ {id:"15", heading:152}, {id:"33", heading:332} ] },
+
+            { icao: "ESGJ", lat: 57.7529, lon: 14.0656, runways: [ {id:"01", heading:18}, {id:"19", heading:198} ] },
+
+            { icao: "ESMQ", lat: 56.6815, lon: 16.2912, runways: [ {id:"16", heading:152}, {id:"34", heading:332} ] },
+
+            { icao: "ESIA", lat: 58.5140, lon: 14.5073, runways: [ {id:"06", heading:63}, {id:"24", heading:243} ] },
+
+            { icao: "ESOK", lat: 59.4453, lon: 13.3378, runways: [ {id:"03", heading:26}, {id:"21", heading:206} ] },
+
+            { icao: "ESNQ", lat: 67.8204, lon: 20.3340, runways: [ {id:"03", heading:34}, {id:"21", heading:214} ] },
+
+            { icao: "ESNK", lat: 63.0481, lon: 17.7689, runways: [ {id:"17", heading:172}, {id:"35", heading:352} ] },
+
+            { icao: "ESMK", lat: 55.9239, lon: 14.0860, runways: [ {id:"01", heading:7}, {id:"19", heading:187} ] },
+
+            { icao: "ESSL", lat: 58.4089, lon: 15.6677, runways: [ {id:"11", heading:112}, {id:"29", heading:292} ] },
+
+            { icao: "ESTL", lat: 56.0847, lon: 13.2001, runways: [ {id:"29", heading:293}, {id:"11", heading:113} ] },
+
+            { icao: "ESPA", lat: 65.5462, lon: 22.1164, runways: [ {id:"14", heading:137}, {id:"32", heading:317} ] },
+
+            { icao: "ESNL", lat: 64.5519, lon: 18.7097, runways: [ {id:"14", heading:143}, {id:"32", heading:323} ] },
+
+            { icao: "ESMS", lat: 55.5356, lon: 13.3763, runways: [ {id:"17", heading:173}, {id:"35", heading:353} ] },
+
+            { icao: "ESKM", lat: 60.9594, lon: 14.5103, runways: [ {id:"16", heading:161}, {id:"34", heading:341} ] },
+
+            { icao: "ESSP", lat: 58.5860, lon: 16.2348, runways: [ {id:"09", heading:91}, {id:"27", heading:271} ] },
+
+            { icao: "ESUP", lat: 67.2428, lon: 23.0832, runways: [ {id:"11", heading:118}, {id:"29", heading:298} ] },
+
+            { icao: "ESDF", lat: 56.2599, lon: 15.2633, runways: [ {id:"01", heading:9}, {id:"19", heading:189} ] },
+
+            { icao: "ESNS", lat: 64.6255, lon: 21.0709, runways: [ {id:"10", heading:106}, {id:"28", heading:286} ] },
+
+            { icao: "ESSB", lat: 59.3539, lon: 17.9428, runways: [ {id:"12", heading:125}, {id:"30", heading:305} ] },
+
+            { icao: "ESOW", lat: 59.5963, lon: 16.6365, runways: [ {id:"01", heading:12}, {id:"19", heading:192} ] },
+
+            { icao: "ESNN", lat: 62.5277, lon: 17.4442, runways: [ {id:"16", heading:160}, {id:"34", heading:340} ] },
+
+            { icao: "ESND", lat: 62.0476, lon: 14.4192, runways: [ {id:"09", heading:87}, {id:"27", heading:267} ] },
+
+            { icao: "ESKS", lat: 61.1578, lon: 12.8432, runways: [ {id:"15", heading:146}, {id:"33", heading:326} ] },
+
+            { icao: "ESST", lat: 60.1540, lon: 12.9942, runways: [ {id:"16", heading:157}, {id:"34", heading:337} ] },
+
+            { icao: "ESNU", lat: 63.7911, lon: 20.2841, runways: [ {id:"14", heading:138}, {id:"32", heading:318} ] },
+
+            { icao: "ESPE", lat: 65.8784, lon: 20.1342, runways: [ {id:"11", heading:116}, {id:"29", heading:296} ] },
+
+            { icao: "ESNV", lat: 64.5789, lon: 16.8346, runways: [ {id:"10", heading:103}, {id:"28", heading:283} ] },
+
+            { icao: "ESSV", lat: 57.6595, lon: 18.3439, runways: [ {id:"03", heading:21}, {id:"21", heading:201} ] },
+
+            { icao: "ESMX", lat: 56.9258, lon: 14.7265, runways: [ {id:"01", heading:13}, {id:"19", heading:193} ] },
+
+            { icao: "ESNZ", lat: 63.1950, lon: 14.4973, runways: [ {id:"12", heading:115}, {id:"30", heading:295} ] },
+
+            { icao: "ESTA", lat: 56.2860, lon: 12.8642, runways: [ {id:"14", heading:136}, {id:"32", heading:316} ] },
+
+            { icao: "ESOE", lat: 59.2279, lon: 15.0396, runways: [ {id:"01", heading:11}, {id:"19", heading:191} ] },
+
+            { icao: "ESNO", lat: 63.4079, lon: 18.9928, runways: [ {id:"12", heading:122}, {id:"30", heading:302} ] }
+        ];
+
+        function degDiff(a,b){
+          let d = ((a - b + 540) % 360) - 180;
+          return d;
+        }
+
+        function computePreferred(windFrom, speed, runways){
+          const comps = runways.map(r => {
+            const rel = degDiff(windFrom, r.heading);
+            const head = speed * Math.cos(rel * Math.PI/180);
+            return { runway: r.id, headwind: head };
+          });
+          comps.sort((a,b) => b.headwind - a.headwind);
+          return comps[0].runway;
+        }
+
+        async function fetchWind(lat, lon){
+          const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&windspeed_unit=kn`;
+          const res = await fetch(url);
+          if(!res.ok) throw new Error("Fetch failed");
+          const data = await res.json();
+          return {
+            dir: data.current_weather.winddirection,
+            speed: data.current_weather.windspeed
+          };
+        }
+
+        async function update() {
+          const ESOSfilter = document.getElementById("ESOScheckbox").checked;
+          const ESMMfilter = document.getElementById("ESMMcheckbox").checked;
+          const GGfilter = document.getElementById("GGcheckbox").checked;
+          const OSfilter = document.getElementById("OScheckbox").checked;
+
+          const ESOSgroup = ["ESSP", "ESSL", "ESCF", "ESGJ", "ESMQ", "ESMX", "ESDF", "ESOE", "ESIA", "ESOK", "ESSD", "ESOH", "ESST", "ESKM", "ESNN", "ESNK", "ESNO", "ESNU", "ESNZ", "ESND", "ESNS", "ESPA", "ESNX", "ESPE", "ESNQ", "ESNV", "ESNL", "ESUT", "ESUP", "ESNG", "ESKS", "ESSV", "ESMV"];
+          const ESMMgroup = ["ESMT", "ESTA", "ESTL", "ESMS", "ESMK", "ESMV"];
+          const GGgroup = ["ESGG", "ESGP", "ESGT"];
+          const OSgroup = ["ESSB","ESOW","ESSU"];
+          
+
+          let lines = [];
+
+          for (const ap of airports) {
+            const activeGroups = [];
+                      
+            if (ESOSfilter) activeGroups.push(ESOSgroup);
+            if (ESMMfilter) activeGroups.push(ESMMgroup);
+            if (GGfilter) activeGroups.push(GGgroup);
+            if (OSfilter) activeGroups.push(OSgroup);
+                      
+            if (activeGroups.length > 0) {
+              // Flatten the selected groups into a single list of allowed ICAOs
+              const allowedICAOs = activeGroups.flat();
+              
+              if (!allowedICAOs.includes(ap.icao)) {
+                continue;
+              }
+            }
+            
+        
+            try {
+              const wind = await fetchWind(ap.lat, ap.lon);
+              const rwy = computePreferred(wind.dir, wind.speed, ap.runways);
+              lines.push(`${ap.icao}    ${String(Math.round(wind.dir)).padStart(3, "0")} / ${String(wind.speed.toFixed(0)).padStart(2, "0")}KT    RWY ${rwy}`);
+            } catch (e) {
+              lines.push(`${ap.icao} ERROR`);
+            }
+          }
+      
+          document.getElementById("output").textContent = lines.join("\n");
+        }
+
+        document.getElementById("ESOScheckbox").addEventListener("change", update);
+        document.getElementById("ESMMcheckbox").addEventListener("change", update);
+        document.getElementById("GGcheckbox").addEventListener("change", update);
+        document.getElementById("OScheckbox").addEventListener("change", update);
+
+        update();
+        setInterval(update, 5 * 60 * 1000);
+        </script>
+    </body>
+</html>
