@@ -146,7 +146,7 @@
         <label><input type="checkbox" id="OScheckbox">OS TMA</label>
         <br>
         <p>
-          ESSA, ESCF, ESKN, ESIB, ESCM not included.
+          ESSA & ESCM not included.
         </p>
         <br>
         <pre id="output">Loading...</pre>
@@ -190,6 +190,8 @@
 
             { icao: "ESMK", lat: 55.9239, lon: 14.0860, runways: [ {id:"01", heading:7}, {id:"19", heading:187} ] },
 
+            { icao: "ESCF", lat: 58.3892, lon: 15.5176, runways: [ {id:"01*", heading:18}, {id:"19*", heading:198} ] },
+            
             { icao: "ESSL", lat: 58.4089, lon: 15.6677, runways: [ {id:"11", heading:112}, {id:"29", heading:292} ] },
 
             { icao: "ESTL", lat: 56.0847, lon: 13.2001, runways: [ {id:"29", heading:293}, {id:"11", heading:113} ] },
@@ -212,11 +214,15 @@
 
             { icao: "ESSB", lat: 59.3539, lon: 17.9428, runways: [ {id:"12", heading:125}, {id:"30", heading:305} ] },
 
+            { icao: "ESKN", lat: 58.7886, lon: 16.9115, runways: [ {id:"08*", heading:83}, {id:"26*", heading:263} ] },
+
             { icao: "ESOW", lat: 59.5963, lon: 16.6365, runways: [ {id:"01", heading:12}, {id:"19", heading:192} ] },
 
             { icao: "ESNN", lat: 62.5277, lon: 17.4442, runways: [ {id:"16", heading:160}, {id:"34", heading:340} ] },
 
             { icao: "ESND", lat: 62.0476, lon: 14.4192, runways: [ {id:"09", heading:87}, {id:"27", heading:267} ] },
+
+            { icao: "ESIB", lat: 58.4299, lon: 12.7117, runways: [ {id:"01*", heading:5}, {id:"19*", heading:185} ] },
 
             { icao: "ESKS", lat: 61.1578, lon: 12.8432, runways: [ {id:"15", heading:146}, {id:"33", heading:326} ] },
 
@@ -273,9 +279,9 @@
           const GGfilter = document.getElementById("GGcheckbox").checked;
           const OSfilter = document.getElementById("OScheckbox").checked;
 
-          const ESOSgroup = ["ESSP", "ESSL", "ESCF", "ESGJ", "ESMQ", "ESMX", "ESDF", "ESOE", "ESIA", "ESOK", "ESSD", "ESOH", "ESST", "ESKM", "ESNN", "ESNK", "ESNO", "ESNU", "ESNZ", "ESND", "ESNS", "ESPA", "ESNX", "ESPE", "ESNQ", "ESNV", "ESNL", "ESUT", "ESUP", "ESNG", "ESKS", "ESSV", "ESMV"];
+          const ESOSgroup = ["ESSP", "ESKN", "ESCF", "ESSL", "ESCF", "ESGJ", "ESMQ", "ESMX", "ESDF", "ESOE", "ESIA", "ESOK", "ESSD", "ESOH", "ESST", "ESKM", "ESNN", "ESNK", "ESNO", "ESNU", "ESNZ", "ESND", "ESNS", "ESPA", "ESNX", "ESPE", "ESNQ", "ESNV", "ESNL", "ESUT", "ESUP", "ESNG", "ESKS", "ESSV", "ESMV"];
           const ESMMgroup = ["ESMT", "ESTA", "ESTL", "ESMS", "ESMK", "ESMV"];
-          const GGgroup = ["ESGG", "ESGP", "ESGT"];
+          const GGgroup = ["ESGG", "ESGP", "ESGT", "ESIB"];
           const OSgroup = ["ESSB","ESOW","ESSU"];
           
 
