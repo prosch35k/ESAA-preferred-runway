@@ -94,6 +94,11 @@
               p {
                 max-width: 100%;
               }
+							.content-container {
+							  flex-direction: column;
+							  align-items: center;
+							}
+
             }
 
             #map-container {
@@ -125,27 +130,51 @@
               position: relative;
             }
             
+						.content-container {
+						  display: flex;
+						  align-items: flex-start;
+						  justify-content: center;
+						  gap: 2rem; /* space between checkboxes and map */
+						  flex-wrap: wrap; /* allows stacking on small screens */
+						}
+
+						.checkbox-container {
+						  display: flex;
+						  flex-direction: column;
+						  align-items: flex-start;
+						}
+
+						#map-container {
+						  position: relative;
+						  width: 130px; /* slightly bigger for clarity */
+						  max-width: 100%;
+						}
+						
         </style>
     </head>
 
     <body>
         <h1>ESAA (VATSCA)</h1>
-        <h2>PREFERRED RUNWAY IN USE BASED ON WIND</h2>
-        <div id="map-container">
-          <img src="highlight-esos.png" id="highlightESOS" class="highlight" alt="">
-          <img src="highlight-esmm.png" id="highlightESMM" class="highlight" alt="">
-          <img src="highlight-gg.png" id="highlightGG" class="highlight" alt="">
-          <img src="highlight-os.png" id="highlightOS" class="highlight" alt="">
-          <img src="highlight-ml.png" id="highlightML" class="highlight" alt="">
-          <img src="base-map.png" id="baseMap" alt="Sweden FIR map">
-        </div>       
-        <br> 
-        <label><input type="checkbox" id="ESOScheckbox">ESOS</label>
-        <label><input type="checkbox" id="ESMMcheckbox">ESMM</label>
-        <br>
-        <label><input type="checkbox" id="GGcheckbox">GG TMA</label>
-        <label><input type="checkbox" id="OScheckbox">OS TMA</label>
-        <label><input type="checkbox" id="MLcheckbox">MM L</label>
+        <h2>PREFERRED RUNWAY IN USE BASED ON WIND</h2><br>
+				<div class="content-container">
+				  <div class="checkbox-container">
+				    <label><input type="checkbox" id="ESOScheckbox">ESOS</label><br>
+				    <label><input type="checkbox" id="ESMMcheckbox">ESMM</label><br><br><br><br>
+				    <label><input type="checkbox" id="GGcheckbox">GG TMA</label><br>
+				    <label><input type="checkbox" id="OScheckbox">OS TMA</label><br>
+				    <label><input type="checkbox" id="MLcheckbox">MM L</label>
+				  </div>
+				
+				  <div id="map-container">
+				    <img src="highlight-esos.png" id="highlightESOS" class="highlight" alt="">
+				    <img src="highlight-esmm.png" id="highlightESMM" class="highlight" alt="">
+				    <img src="highlight-gg.png" id="highlightGG" class="highlight" alt="">
+				    <img src="highlight-os.png" id="highlightOS" class="highlight" alt="">
+				    <img src="highlight-ml.png" id="highlightML" class="highlight" alt="">
+				    <img src="base-map.png" id="baseMap" alt="Sweden FIR map">
+				  </div>
+				</div>
+
         <br>
         <p>
           <strong>ESOS:</strong> All ADs in ESOS AoR, except those in OS TMA. <br>
