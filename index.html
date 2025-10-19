@@ -159,10 +159,11 @@
 				<div class="content-container">
 				  <div class="checkbox-container">
 				    <label><input type="checkbox" id="ESOScheckbox">ESOS</label><br>
-				    <label><input type="checkbox" id="ESMMcheckbox">ESMM</label><br><br><br><br>
+				    <label><input type="checkbox" id="ESMMcheckbox">ESMM</label><br><br><br>
 				    <label><input type="checkbox" id="GGcheckbox">GG TMA</label><br>
 				    <label><input type="checkbox" id="OScheckbox">OS TMA</label><br>
-				    <label><input type="checkbox" id="MLcheckbox">MM L</label>
+				    <label><input type="checkbox" id="MLcheckbox">MM L</label><br>
+					<label><input type="checkbox" id="OKCcheckbox">ÖKC</label>
 				  </div>
 				
 				  <div id="map-container">
@@ -171,6 +172,7 @@
 				    <img src="highlight-gg.png" id="highlightGG" class="highlight" alt="">
 				    <img src="highlight-os.png" id="highlightOS" class="highlight" alt="">
 				    <img src="highlight-ml.png" id="highlightML" class="highlight" alt="">
+					<img src="highlight-okc.png" id="highlightOKC" class="highlight" alt="">
 				    <img src="base-map.png" id="baseMap" alt="Sweden FIR map">
 				  </div>
 				</div>
@@ -179,7 +181,8 @@
         <p>
           <strong>ESOS:</strong> All ADs in ESOS AoR, except those in OS TMA. <br>
           <strong>ESMM:</strong> All ADs in ESMM AoR, except those in GG TMA. <br>
-          <strong>MM L:</strong> All ADs in MM L is included in ESMM.
+          <strong>MM L:</strong> All ADs in MM L is included in ESMM. <br>
+		  <strong>ÖKC:</strong> All ADs in ÖKC is included in ESOS.
           <br><br>
           ESSA & ESCM not included.
           <br><br>
@@ -315,12 +318,14 @@
           const GGfilter = document.getElementById("GGcheckbox").checked;
           const OSfilter = document.getElementById("OScheckbox").checked;
           const MLfilter = document.getElementById("MLcheckbox").checked;
+		  const OKCfilter = document.getElementById("OKCcheckbox").checked;
 
           const ESOSgroup = ["ESSP", "ESKN", "ESCF", "ESSL", "ESCF", "ESGJ", "ESMQ", "ESMX", "ESDF", "ESOE", "ESIA", "ESOK", "ESSD", "ESOH", "ESST", "ESKM", "ESNN", "ESNK", "ESNO", "ESNU", "ESNZ", "ESND", "ESNS", "ESPA", "ESNX", "ESPE", "ESNQ", "ESNV", "ESNL", "ESUT", "ESUP", "ESNG", "ESKS", "ESSV", "ESMV"];
           const ESMMgroup = ["ESMT", "ESTA", "ESTL", "ESMS", "ESMK", "ESMV"];
           const GGgroup = ["ESGG", "ESGP", "ESGT", "ESIB"];
           const OSgroup = ["ESSB","ESOW","ESSU"];
           const MLgroup = ["ESMS", "ESMK"];
+		  const OKCgroup = ["ESKN", "ESSP", "ESCF", "ESSL"];
 
           let lines = [];
 
@@ -332,6 +337,7 @@
             if (GGfilter) activeGroups.push(GGgroup);
             if (OSfilter) activeGroups.push(OSgroup);
             if (MLfilter) activeGroups.push(MLgroup);
+			if (OKCfilter) activeGroups.push(OKCgroup);
                       
             if (activeGroups.length > 0) {
               // Flatten the selected groups into a single list of allowed ICAOs
@@ -370,6 +376,9 @@
 
           document.getElementById("highlightML").style.opacity =
             document.getElementById("MLcheckbox").checked ? 1 : 0;
+						
+		  document.getElementById("highlightOKC").style.opacity =
+            document.getElementById("OKCcheckbox").checked ? 1 : 0;
         }
 
         document.getElementById("ESOScheckbox").addEventListener("change", () => {
@@ -390,6 +399,11 @@
         });
 
         document.getElementById("MLcheckbox").addEventListener("change", () => {
+          update();
+          updateHighlights();
+        });
+
+		document.getElementById("OKCcheckbox").addEventListener("change", () => {
           update();
           updateHighlights();
         });
