@@ -76,6 +76,8 @@
       max-width: 300px;
       width: 100%;
       color: #2c3e50;
+
+
     }
 
 
@@ -153,6 +155,17 @@
       width: 130px;
       max-width: 100%;
     }
+
+    .airport-line {
+      display: inline-block;
+      width: 100%;
+      cursor: help;
+      transition: background-color 0.2s ease;
+    }
+
+    .airport-line:hover {
+      background-color: #eef5fa;
+    }
   </style>
 </head>
 
@@ -189,7 +202,8 @@
     <br><br>
     ESSA & ESCM not included.
     <br><br>
-    * Only main RWY shown
+    * Only main RWY shown <br>
+    ** Other factors affect RWY in use (hover over to see)
   </p>
   <br>
   <pre id="output">Loading...</pre>
@@ -198,7 +212,7 @@
     const airports = [
       { icao: "ESCF", lat: 58.3892, lon: 15.5176, runways: [{ id: "01*", heading: 18 }, { id: "19*", heading: 198 }] },
 
-      { icao: "ESDF", lat: 56.2599, lon: 15.2633, runways: [{ id: "01", heading: 9 }, { id: "19", heading: 189 }] },
+      { icao: "ESDF", lat: 56.2599, lon: 15.2633, runways: [{ id: "01**", heading: 9 }, { id: "19**", heading: 189 }], desc: "Due to the location of the civil apron, RWY 19 is generally preferred for landing and RWY 01 for departure for traffic using the civil apron." },
 
       { icao: "ESGG", lat: 57.6496, lon: 12.2677, runways: [{ id: "03", heading: 26 }, { id: "21", heading: 206 }] },
 
@@ -214,19 +228,19 @@
 
       { icao: "ESKM", lat: 60.9594, lon: 14.5103, runways: [{ id: "16", heading: 161 }, { id: "34", heading: 341 }] },
 
-      { icao: "ESKN", lat: 58.7886, lon: 16.9115, runways: [{ id: "08*", heading: 83 }, { id: "26*", heading: 263 }] },
+      { icao: "ESKN", lat: 58.7886, lon: 16.9115, runways: [{ id: "08**", heading: 83 }, { id: "26**", heading: 263 }], desc: "RWY 26 will be in use with ceiling (BKN/OVC) below 400 ft. RWY 08 may be preferable for landing due to shorter air/taxi distance. RWY 16/32 not considered in calculations." },
 
       { icao: "ESKS", lat: 61.1578, lon: 12.8432, runways: [{ id: "15", heading: 146 }, { id: "33", heading: 326 }] },
 
-      { icao: "ESMK", lat: 55.9239, lon: 14.0860, runways: [{ id: "01", heading: 7 }, { id: "19", heading: 187 }] },
+      { icao: "ESMK", lat: 55.9239, lon: 14.0860, runways: [{ id: "01**", heading: 7 }, { id: "19**", heading: 187 }], desc: "RWY 19 is normally preferred for landing." },
 
-      { icao: "ESMQ", lat: 56.6815, lon: 16.2912, runways: [{ id: "16", heading: 152 }, { id: "34", heading: 332 }] },
+      { icao: "ESMQ", lat: 56.6815, lon: 16.2912, runways: [{ id: "16**", heading: 152 }, { id: "34**", heading: 332 }], desc: "Due to the location of the apron and available approach procedures, RWY 16 is generally preferred for landing and RWY 34 for departure." },
 
-      { icao: "ESMS", lat: 55.5356, lon: 13.3763, runways: [{ id: "17", heading: 173 }, { id: "35", heading: 353 }] },
+      { icao: "ESMS", lat: 55.5356, lon: 13.3763, runways: [{ id: "17**", heading: 173 }, { id: "35**", heading: 353 }], desc: "RWY 17 is normally preferred." },
 
-      { icao: "ESMT", lat: 56.6829, lon: 12.8184, runways: [{ id: "01", heading: 6 }, { id: "19", heading: 186 }] },
+      { icao: "ESMT", lat: 56.6829, lon: 12.8184, runways: [{ id: "01**", heading: 6 }, { id: "19**", heading: 186 }], desc: "When flight safety, traffic situation and weather conditions permit (tailwind component <5 knots and RWYCC 5 or higher), RWY 01 is used for departure and RWY 19 is used for landing." },
 
-      { icao: "ESMX", lat: 56.9258, lon: 14.7265, runways: [{ id: "01", heading: 13 }, { id: "19", heading: 193 }] },
+      { icao: "ESMX", lat: 56.9258, lon: 14.7265, runways: [{ id: "01**", heading: 13 }, { id: "19**", heading: 193 }], desc: "Due to the location of the apron and available approach procedures, RWY 19 is generally preferred for landing and RWY 01 for departure." },
 
       { icao: "ESND", lat: 62.0476, lon: 14.4192, runways: [{ id: "09", heading: 87 }, { id: "27", heading: 267 }] },
 
@@ -236,21 +250,21 @@
 
       { icao: "ESNL", lat: 64.5519, lon: 18.7097, runways: [{ id: "14", heading: 143 }, { id: "32", heading: 323 }] },
 
-      { icao: "ESNN", lat: 62.5277, lon: 17.4442, runways: [{ id: "16", heading: 160 }, { id: "34", heading: 340 }] },
+      { icao: "ESNN", lat: 62.5277, lon: 17.4442, runways: [{ id: "16**", heading: 160 }, { id: "34**", heading: 340 }], desc: "When flight safety, traffic situation and weather conditions permit (tailwind component <5 knots and RWYCC 5 or higher), landings arriving from the south must be performed on RWY 34 and take-offs for destinations to the south must be performed on RWY 16." },
 
       { icao: "ESNO", lat: 63.4079, lon: 18.9928, runways: [{ id: "12", heading: 122 }, { id: "30", heading: 302 }] },
 
       { icao: "ESNQ", lat: 67.8204, lon: 20.3340, runways: [{ id: "03", heading: 34 }, { id: "21", heading: 214 }] },
 
-      { icao: "ESNS", lat: 64.6255, lon: 21.0709, runways: [{ id: "10", heading: 106 }, { id: "28", heading: 286 }] },
+      { icao: "ESNS", lat: 64.6255, lon: 21.0709, runways: [{ id: "10**", heading: 106 }, { id: "28**", heading: 286 }], desc: "Due to the location of the apron and available approach procedures, RWY 28 is generally preferred for landing and RWY 10 for departure." },
 
-      { icao: "ESNU", lat: 63.7911, lon: 20.2841, runways: [{ id: "14", heading: 138 }, { id: "32", heading: 318 }] },
+      { icao: "ESNU", lat: 63.7911, lon: 20.2841, runways: [{ id: "14**", heading: 138 }, { id: "32**", heading: 318 }], desc: "Take-off RWY 32 and landing RWY 14 not allowed 22-07 local time unless required for flight safety reasons (tailwind or traffic situation etc.)." },
 
       { icao: "ESNV", lat: 64.5789, lon: 16.8346, runways: [{ id: "10", heading: 103 }, { id: "28", heading: 283 }] },
 
       { icao: "ESNX", lat: 65.5952, lon: 19.2661, runways: [{ id: "12", heading: 128 }, { id: "30", heading: 308 }] },
 
-      { icao: "ESNZ", lat: 63.1950, lon: 14.4973, runways: [{ id: "12", heading: 115 }, { id: "30", heading: 295 }] },
+      { icao: "ESNZ", lat: 63.1950, lon: 14.4973, runways: [{ id: "12**", heading: 115 }, { id: "30**", heading: 295 }], desc: "When flight safety, traffic situation and weather conditions permit (tailwind component <5 knots and RWYCC 5 or higher), RWY 30 is used for departure and RWY 12 is used for landing." },
 
       { icao: "ESOE", lat: 59.2279, lon: 15.0396, runways: [{ id: "01", heading: 11 }, { id: "19", heading: 191 }] },
 
@@ -266,19 +280,19 @@
 
       { icao: "ESSB", lat: 59.3539, lon: 17.9428, runways: [{ id: "12", heading: 125 }, { id: "30", heading: 305 }] },
 
-      { icao: "ESSD", lat: 60.4292, lon: 15.5066, runways: [{ id: "14", heading: 132 }, { id: "32", heading: 312 }] },
+      { icao: "ESSD", lat: 60.4292, lon: 15.5066, runways: [{ id: "14**", heading: 132 }, { id: "32**", heading: 312 }], desc: "Due to the location of the apron, available approach procedures as well as noise abatement, RWY 32 is generally preferred for landing and RWY 14 for departure." },
 
-      { icao: "ESSL", lat: 58.4089, lon: 15.6677, runways: [{ id: "11", heading: 112 }, { id: "29", heading: 292 }] },
+      { icao: "ESSL", lat: 58.4089, lon: 15.6677, runways: [{ id: "11**", heading: 112 }, { id: "29**", heading: 292 }], desc: "When flight safety, traffic situation and weather conditions permit (tailwind component <5 knots and RWYCC 5 or higher), RWY 11 is used for departure and RWY 29 is used for landing." },
 
-      { icao: "ESSP", lat: 58.5860, lon: 16.2348, runways: [{ id: "09", heading: 91 }, { id: "27", heading: 271 }] },
+      { icao: "ESSP", lat: 58.5860, lon: 16.2348, runways: [{ id: "09**", heading: 91 }, { id: "27**", heading: 271 }], desc: "When flight safety, traffic situation and weather conditions permit (tailwind component <5 knots and RWYCC 5 or higher), RWY 09 is used for departure and RWY 27 is used for landing." },
 
       { icao: "ESST", lat: 60.1540, lon: 12.9942, runways: [{ id: "16", heading: 157 }, { id: "34", heading: 337 }] },
 
       { icao: "ESSU", lat: 59.3506, lon: 16.7084, runways: [{ id: "18", heading: 178 }, { id: "36", heading: 358 }] },
 
-      { icao: "ESSV", lat: 57.6595, lon: 18.3439, runways: [{ id: "03", heading: 21 }, { id: "21", heading: 201 }] },
+      { icao: "ESSV", lat: 57.6595, lon: 18.3439, runways: [{ id: "03**", heading: 21 }, { id: "21**", heading: 201 }], desc: "Due to the location of the apron and available approach procedures, RWY 21 is generally preferred for landing and RWY 03 for departure." },
 
-      { icao: "ESTA", lat: 56.2860, lon: 12.8642, runways: [{ id: "14", heading: 136 }, { id: "32", heading: 316 }] },
+      { icao: "ESTA", lat: 56.2860, lon: 12.8642, runways: [{ id: "14**", heading: 136 }, { id: "32**", heading: 316 }], desc: "Due to the location of the apron and available approach procedures, RWY 14 is generally preferred for landing and RWY 32 for departure." },
 
       { icao: "ESMV", lat: 57.2881, lon: 14.1295, runways: [{ id: "04", heading: 43 }, { id: "22", heading: 223 }] },
 
@@ -354,13 +368,23 @@
         try {
           const wind = await fetchWind(ap.lat, ap.lon);
           const rwy = computePreferred(wind.dir, wind.speed, ap.runways);
-          lines.push(`   ${ap.icao}    ${String(Math.round(wind.dir)).padStart(3, "0")} / ${String(wind.speed.toFixed(0)).padStart(2, "0")}KT    RWY ${rwy}`);
+          const tooltip = ap.desc ? ` title="${ap.desc}"` : "";
+
+          // Format columns with padding to align them neatly
+          const icao = ap.icao.padEnd(6, " ");
+          const dir = String(Math.round(wind.dir)).padStart(3, "0");
+          const spd = String(wind.speed.toFixed(0)).padStart(2, "0");
+          const runway = `RWY ${rwy}`;
+
+          lines.push(
+            `<span class="airport-line"${tooltip}>   ${icao}  ${dir} / ${spd}KT   ${runway}</span>`
+          );
         } catch (e) {
           lines.push(`${ap.icao} ERROR`);
         }
       }
 
-      document.getElementById("output").textContent = lines.join("\n");
+      document.getElementById("output").innerHTML = lines.join("<br>");
     }
 
     function updateHighlights() {
