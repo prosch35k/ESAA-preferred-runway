@@ -348,6 +348,13 @@
       const MLfilter = document.getElementById("MLcheckbox").checked;
       const OKCfilter = document.getElementById("OKCcheckbox").checked;
 
+      //Vid inga sektorfilter, visa inget
+      if (!ESOSfilter && !ESMMfilter && !GGfilter && !OSfilter && !MLfilter && !OKCfilter) {
+        document.getElementById("output").innerHTML = "Please select a sector.";
+        return;
+      }
+
+
       const ESOSgroup = ["ESSP", "ESKN", "ESCF", "ESSL", "ESCF", "ESGJ", "ESMQ", "ESMX", "ESDF", "ESOE", "ESIA", "ESOK", "ESSD", "ESOH", "ESST", "ESKM", "ESNN", "ESNK", "ESNO", "ESNU", "ESNZ", "ESND", "ESNS", "ESPA", "ESNX", "ESPE", "ESNQ", "ESNV", "ESNL", "ESUT", "ESUP", "ESNG", "ESKS", "ESSV", "ESMV"];
       const ESMMgroup = ["ESMT", "ESTA", "ESTL", "ESMS", "ESMK", "ESMV"];
       const GGgroup = ["ESGG", "ESGP", "ESGT", "ESIB"];
