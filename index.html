@@ -73,7 +73,7 @@
       line-height: 1.5;
       white-space: pre-wrap;
       text-align: left;
-      max-width: 300px;
+      max-width: 350px;
       width: 100%;
       color: #2c3e50;
 
@@ -161,17 +161,39 @@
       width: 100%;
       cursor: help;
       transition: background-color 0.2s ease;
+      position: relative;
     }
 
     .airport-line:hover {
       background-color: #eef5fa;
     }
+
+    .airport-line[data-desc]:hover::after {
+      content: attr(data-desc);
+      position: absolute;
+      left: 0;
+      top: 100%;
+      z-index: 10;
+      background: #ffffff;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 0.6rem 0.8rem;
+      font-size: 1rem;
+      color: #1a4860;
+      white-space: normal;
+      width: 300px; 
+      line-height: 1.4;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+      margin-top: 0.3rem;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
   </style>
 </head>
 
 <body>
-  <h1>ESAA (VATSCA)</h1>
-  <h2>PREFERRED RUNWAY IN USE BASED ON WIND</h2><br>
+  <h1>SWEDEN FIR</h1>
+  <h2>PREFERRED RUNWAY IN USE</h2><br>
   <div class="content-container">
     <div class="checkbox-container">
       <label><input type="checkbox" id="ESOScheckbox">ESOS</label><br>
@@ -368,16 +390,15 @@
         try {
           const wind = await fetchWind(ap.lat, ap.lon);
           const rwy = computePreferred(wind.dir, wind.speed, ap.runways);
-          const tooltip = ap.desc ? ` title="${ap.desc}"` : "";
+          const tooltip = ap.desc ? ` data-desc="${ap.desc}"` : "";
 
-          // Format columns with padding to align them neatly
           const icao = ap.icao.padEnd(6, " ");
           const dir = String(Math.round(wind.dir)).padStart(3, "0");
           const spd = String(wind.speed.toFixed(0)).padStart(2, "0");
           const runway = `RWY ${rwy}`;
 
           lines.push(
-            `<span class="airport-line"${tooltip}>   ${icao}  ${dir} / ${spd}KT   ${runway}</span>`
+            `<span class="airport-line"${tooltip}>   ${icao}    ${dir}  /  ${spd}KT     ${runway}</span>`
           );
         } catch (e) {
           lines.push(`${ap.icao} ERROR`);
