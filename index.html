@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8">
-  <title>Preferred Runway Sweden</title>
+  <title>SWEDEN FIR: Preferred RWY</title>
   <style>
     body {
       margin: 0;
@@ -393,7 +393,9 @@
           const tooltip = ap.desc ? ` data-desc="${ap.desc}"` : "";
 
           const icao = ap.icao.padEnd(6, " ");
-          const dir = String(Math.round(wind.dir)).padStart(3, "0");
+          const displayDir = Math.round(wind.dir / 10) * 10; //avrundar närmaste 10-tal
+          const dir = String(displayDir).padStart(3, "0");
+
           const spd = String(wind.speed.toFixed(0)).padStart(2, "0");
           const runway = `RWY ${rwy}`;
 
